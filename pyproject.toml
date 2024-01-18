@@ -36,7 +36,6 @@ dependencies = [
     "tqdm",
     "dicom2nifti",
     "scipy",
-    "batchgenerators>=0.25",
     "numpy",
     "scikit-learn",
     "scikit-image>=0.19.3",

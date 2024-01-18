@@ -393,13 +393,13 @@ class nnUNetTrainer(object):
             # todo revisit this parametrization
             if max(patch_size) / min(patch_size) > 1.5:
                 rotation_for_DA = {
-                    'x': (-15. / 360 * 2. * np.pi, 15. / 360 * 2. * np.pi),
+                    'x': (-90. / 360 * 2. * np.pi, 90. / 360 * 2. * np.pi),
                     'y': (0, 0),
                     'z': (0, 0)
                 }
             else:
                 rotation_for_DA = {
-                    'x': (-180. / 360 * 2. * np.pi, 180. / 360 * 2. * np.pi),
+                    'x': (-90. / 360 * 2. * np.pi, 90. / 360 * 2. * np.pi),
                     'y': (0, 0),
                     'z': (0, 0)
                 }
@@ -411,15 +411,15 @@ class nnUNetTrainer(object):
             if do_dummy_2d_data_aug:
                 # why do we rotate 180 deg here all the time? We should also restrict it
                 rotation_for_DA = {
-                    'x': (-180. / 360 * 2. * np.pi, 180. / 360 * 2. * np.pi),
+                    'x': (-90. / 360 * 2. * np.pi, 90. / 360 * 2. * np.pi),
                     'y': (0, 0),
                     'z': (0, 0)
                 }
             else:
                 rotation_for_DA = {
-                    'x': (-30. / 360 * 2. * np.pi, 30. / 360 * 2. * np.pi),
-                    'y': (-30. / 360 * 2. * np.pi, 30. / 360 * 2. * np.pi),
-                    'z': (-30. / 360 * 2. * np.pi, 30. / 360 * 2. * np.pi),
+                    'x': (-90. / 360 * 2. * np.pi, 90. / 360 * 2. * np.pi),
+                    'y': (-90. / 360 * 2. * np.pi, 90. / 360 * 2. * np.pi),
+                    'z': (-90. / 360 * 2. * np.pi, 90. / 360 * 2. * np.pi),
                 }
             mirror_axes = (0, 1, 2)
         else:
@@ -726,7 +726,7 @@ class nnUNetTrainer(object):
         tr_transforms.append(GammaTransform((0.7, 1.5), False, True, retain_stats=True, p_per_sample=0.3))
 
         if mirror_axes is not None and len(mirror_axes) > 0:
-            tr_transforms.append(MirrorTransform(mirror_axes))
+            tr_transforms.append(MirrorTransform(mirror_axes, prob=(0.5, 0.25, 0.25)))
 
         if use_mask_for_norm is not None and any(use_mask_for_norm):
             tr_transforms.append(MaskTransform([i for i in range(len(use_mask_for_norm)) if use_mask_for_norm[i]],
